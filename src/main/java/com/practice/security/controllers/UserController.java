@@ -1,6 +1,7 @@
 package com.practice.security.controllers;
 
 import com.practice.security.dtos.CreateUserDto;
+import com.practice.security.exceptions.AppException;
 import com.practice.security.objects.ApiResponse;
 import com.practice.security.objects.UserResponse;
 import com.practice.security.services.UserService;
@@ -17,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping()
-    public ApiResponse<UserResponse> createUser(@RequestBody CreateUserDto createUserDto) {
+    public ApiResponse<UserResponse> createUser(@RequestBody CreateUserDto createUserDto) throws AppException {
         UserResponse userResponse = this.userService.createUser(createUserDto);
 
         return ApiResponse.<UserResponse>builder()
