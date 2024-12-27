@@ -29,7 +29,7 @@ public class AuthService {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     @Value("${jwt.valid-duration.ms}")
-    protected long VALID_DURATION;
+    protected long VALID_DURATION_MS;
 
     public AuthService(UserRepo userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
@@ -60,7 +60,7 @@ public class AuthService {
         return Jwts.builder()
             .subject(user.getUsername())
             .issuedAt(new Date())
-            .expiration(new Date(System.currentTimeMillis() + this.VALID_DURATION))
+            .expiration(new Date(System.currentTimeMillis() + this.VALID_DURATION_MS))
             .signWith(key)
             .claim("scope", buildScope(user))
             .compact();
