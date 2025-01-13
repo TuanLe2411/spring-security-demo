@@ -15,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -45,8 +44,8 @@ public class UserService {
 
     @PreAuthorize("hasAuthority('USER') && hasAuthority('READ')")
     public UserResponse getUser(String username) throws AppException {
-        User user= this.userRepo.findUserByUsername(username);
-        if(user == null) {
+        User user = this.userRepo.findUserByUsername(username);
+        if (user == null) {
             throw new AppException(Error.USER_NOT_FOUND);
         }
         return this.userMapper.toResponse(user);

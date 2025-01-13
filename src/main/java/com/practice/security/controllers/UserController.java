@@ -5,7 +5,6 @@ import com.practice.security.exceptions.AppException;
 import com.practice.security.objects.ApiResponse;
 import com.practice.security.objects.UserResponse;
 import com.practice.security.services.UserService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
