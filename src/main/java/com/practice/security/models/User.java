@@ -1,18 +1,18 @@
 package com.practice.security.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.practice.security.enums.PermissionList;
 import com.practice.security.enums.RoleList;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,11 +31,25 @@ public class User implements UserDetails {
     private Date dateOfBirth;
     private Date lastLoginDate;
     private boolean loggedIn;
+    private boolean isVerified;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnoreProperties
+    @JsonIgnore
     private Set<RoleList> roles;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnoreProperties
+    @JsonIgnore
     private Set<PermissionList> permissions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList());
+        List<GrantedAuthority> roleAuths = roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList());
+        List<GrantedAuthority> permissionAuths = permissions.stream().map(permission -> new SimpleGrantedAuthority(permission.name())).collect(Collectors.toList());
+        roleAuths.addAll(permissionAuths);
+        return roleAuths;
     }
 }

@@ -11,9 +11,11 @@ import com.practice.security.objects.UserResponse;
 import com.practice.security.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -38,6 +40,15 @@ public class UserService {
             throw new AppException(Error.USER_EXISTED);
         }
 
+        return this.userMapper.toResponse(user);
+    }
+
+    @PreAuthorize("hasAuthority('USER') && hasAuthority('READ')")
+    public UserResponse getUser(String username) throws AppException {
+        User user= this.userRepo.findUserByUsername(username);
+        if(user == null) {
+            throw new AppException(Error.USER_NOT_FOUND);
+        }
         return this.userMapper.toResponse(user);
     }
 }

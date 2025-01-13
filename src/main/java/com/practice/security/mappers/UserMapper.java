@@ -19,8 +19,6 @@ public class UserMapper {
         return UserResponse.builder()
             .id(user.getId())
             .username(user.getUsername())
-            .roles(user.getRoles())
-            .permissions(user.getPermissions())
             .loggedIn(user.isLoggedIn())
             .build();
     }
