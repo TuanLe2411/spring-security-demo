@@ -3,8 +3,6 @@ package com.practice.security.configs;
 import com.practice.security.exceptions.SecurityExceptionHandler;
 import com.practice.security.filters.JwtFilter;
 import com.practice.security.filters.XssProtectFilter;
-import com.practice.security.services.MyUserDetailService;
-import com.practice.security.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

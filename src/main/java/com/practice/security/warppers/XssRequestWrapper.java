@@ -8,12 +8,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.owasp.encoder.Encode;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class XssRequestWrapper extends HttpServletRequestWrapper {
@@ -67,7 +69,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
     }
 
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(sanitizedBody);
         return new ServletInputStream() {
             @Override
