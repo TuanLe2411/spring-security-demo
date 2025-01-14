@@ -2,6 +2,7 @@ package com.practice.security.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.practice.security.enums.PermissionList;
 import com.practice.security.enums.RoleList;
 import jakarta.persistence.*;
@@ -33,16 +34,8 @@ public class User implements UserDetails {
     private boolean loggedIn;
     private boolean isVerified;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnoreProperties
-    @JsonIgnore
     private Set<RoleList> roles;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnoreProperties
-    @JsonIgnore
     private Set<PermissionList> permissions;
 
     @Override

@@ -20,6 +20,8 @@ public class UserMapper {
             .id(user.getId())
             .username(user.getUsername())
             .loggedIn(user.isLoggedIn())
+            .lastLoginDate(user.getLastLoginDate())
+            .isVerified(user.isVerified())
             .build();
     }
 }
