@@ -2,6 +2,7 @@ package com.practice.security.configs;
 
 import com.practice.security.exceptions.SecurityExceptionHandler;
 import com.practice.security.filters.JwtFilter;
+import com.practice.security.filters.XssProtectFilter;
 import com.practice.security.services.MyUserDetailService;
 import com.practice.security.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,13 @@ public class SecurityConfig {
     public final String[] PUBLIC_POST_REQUEST = new String[]{"/users", "/auth/login"};
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private MyUserDetailService userDetailService;
-
-    @Autowired
     private SecurityExceptionHandler securityExceptionHandler;
+
+    @Autowired
+    private JwtFilter jwtFilter;
+
+    @Autowired
+    private XssProtectFilter xssProtectFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -45,7 +46,8 @@ public class SecurityConfig {
                 exception -> exception.authenticationEntryPoint(
                     this.securityExceptionHandler
                 ))
-            .addFilterAfter(new JwtFilter(jwtUtil, userDetailService), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(this.xssProtectFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(this.jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 
